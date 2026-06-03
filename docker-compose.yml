@@ -1,4 +1,35 @@
 services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: toktok-lms-web:latest
+    container_name: toktok-web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      APP_NAME: TokTok LMS
+      APP_ENV: local
+      APP_KEY: ${APP_KEY}
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8080
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: toktok_lms
+      DB_USERNAME: toktok
+      DB_PASSWORD: secret
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      WAIT_FOR_DB: "true"
+      RUN_MIGRATIONS: "true"
+      RUN_SEEDERS: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   postgres:
     image: postgres:16-alpine
     container_name: toktok-postgres

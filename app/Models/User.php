@@ -24,7 +24,7 @@ class User extends Authenticatable
                     $user->user_id = 10001; // first user
                 }
                 // phone manage
-                if (!strpos($user->phone, '+855') === 0) {
+                if ($user->phone && !str_starts_with($user->phone, '+855')) {
                     $user->phone = '+855' . $user->phone; 
                 }
                 

@@ -25,17 +25,6 @@ class UserController extends Controller
         $users = $query->paginate(10)->withQueryString();
 
         $deleteConfig = [
-<<<<<<< HEAD
-            'title' => 'តើអ្នកប្រាកដទេនឹងលុបសមាជិកនេះ?',
-            'html' => '<div style="text-align: left;">
-                        <p style="margin-bottom: 10px; text-align: center;">អ្នកកំពុងត្រៀមលុបសមាជិកខាងក្រោម</p>
-                    </div>',
-            'icon' => 'warning',
-            'showCancelButton' => true,
-            'confirmButtonColor' => '#830000ff',
-            'cancelButtonColor' => '#969696ff',
-            'confirmButtonText' => 'បាទ/ចាស, លុប!',
-=======
             'title' => 'តើអ្នកប្រាកដទេថានឹងលុបសមាជិកនេះ?',
             'html' => '<div style="text-align: left;">
                         <p style="margin-bottom: 10px; text-align: center;">អ្នកកំពុងត្រៀមលុប</p>
@@ -45,7 +34,6 @@ class UserController extends Controller
             'confirmButtonColor' => '#b50404ff',
             'cancelButtonColor' => '#aeaeaeff',
             'confirmButtonText' => 'បាទ/​ចាស, លុប!',
->>>>>>> develop
             'cancelButtonText' => 'បោះបង់',
             'reverseButtons' => true,
             'focusCancel' => true
@@ -69,14 +57,6 @@ class UserController extends Controller
             'full_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|min:9',
-<<<<<<< HEAD
-        ],
-        [
-        'phone.min' => 'លេខទូរស័ព្ទត្រូវតែមានយ៉ាងតិច ៩ តួអក្សរ',
-            'email.unique'=>'អុីម៉ែលត្រូវបានប្រើប្រាស់រួចហើយ'
-    ]);
-
-=======
         ],[
             'phone.min' => 'លេខទូរស័ព្ទត្រូវមានយ៉ាងតិច ៩ ខ្ទង់',
             'email.unique' => 'អ៊ីមែលនេះបានប្រើរួចហើយ',
@@ -84,7 +64,6 @@ class UserController extends Controller
             'email.required' => 'សូមបញ្ចូលអ៊ីមែល',
             'phone.required' => 'សូមបញ្ចូលលេខទូរស័ព្ទ'
         ]);
->>>>>>> develop
 
         User::create([
             'full_name' => $validated['full_name'],
@@ -94,19 +73,10 @@ class UserController extends Controller
         ]);
         $userName = $user->full_name ?? $validated['full_name'];
 
-<<<<<<< HEAD
-        Alert::success('Success', 'User created successfully');
-        return redirect()->route('users.userList')->with('alert.config', json_encode([
-            'title' => 'សមាជិកត្រូវបានបន្ថែម!',
-            'icon' => 'success',
-            'confirmButtonText' => 'យល់ព្រម'
-        ]));
-=======
         Alert::success('ជោគជ័យ', ' សមាជិក ' . $userName . ' ត្រូវបានបង្កើតដោយជោគជ័យ!')
              ->persistent(false)
              ->autoClose(2000);
         return redirect()->route('users.userList');
->>>>>>> develop
     }
 
     public function show(User $user)
@@ -127,18 +97,6 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'required|string|min:9'
         ],[
-<<<<<<< HEAD
-            'phone'=>'លេខទូរស័ព្ទត្រូវតែមានយ៉ាងតិច ៩ តួអក្សរ'
-        ]);
-        $user->update($validated);
-
-        Alert::success('Success', 'User updated successfully');
-        return redirect()->route('users.userList')->with('alert.config', json_encode([
-            'title' => 'សមាជិកត្រូវបានកែប្រែ!',
-            'icon' => 'success',
-            'confirmButtonText' => 'យល់ព្រម'
-        ]));
-=======
             'phone.min' => 'លេខទូរស័ព្ទត្រូវមានយ៉ាងតិច ៩ ខ្ទង់',
             'email.unique' => 'អ៊ីមែលនេះបានប្រើរួចហើយ',
             'full_name.required' => 'សូមបញ្ចូលឈ្មោះពេញ',
@@ -151,7 +109,6 @@ class UserController extends Controller
              ->persistent(false)
              ->autoClose(2000);
         return redirect()->route('users.userList');
->>>>>>> develop
     }
 
      public function destroy(User $user)

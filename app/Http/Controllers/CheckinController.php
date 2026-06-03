@@ -64,11 +64,11 @@ class CheckinController extends Controller
         $borrowRecord->update([
             'check_in_date' => now(),
             'borrow_status' => 'checked_in',
-            'fee' => $fee
+            'penalty' => $fee
         ]);
 
-        // Update book quantity
-        $book->increment('quantity', $request->qty);
+        // Update book stock
+        $book->increment('available_stock', $request->qty);
 
         return redirect()->route('checkins.index')
             ->with('success', 'សៀវភៅត្រូវបានត្រឡប់មកវិញដោយជោគជ័យ។' .

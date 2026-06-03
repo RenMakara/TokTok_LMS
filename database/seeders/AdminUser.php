@@ -8,11 +8,13 @@ class AdminUser extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'full_name' => 'Admin',
-            'email' => 'admin@library.local',
-            'phone' => '0123456789',
-            'role' => 'admin'
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@library.local'],
+            [
+                'full_name' => 'Admin',
+                'phone' => '0123456789',
+                'role' => 'admin',
+            ]
+        );
     }
 }

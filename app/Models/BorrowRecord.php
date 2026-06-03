@@ -18,6 +18,7 @@ class BorrowRecord extends Model
         'borrow_status',
         'check_out_date',
         'check_in_date',
+        'penalty',
     ];
 
     // Relationship with Book (book_id → book_id)

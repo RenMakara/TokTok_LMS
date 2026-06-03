@@ -141,7 +141,7 @@ class BookController extends Controller
         // 1️⃣ Clean & split author names
         $authorsInput = $request->author_name; // e.g., "Josh Kim & Malita Roush"
         $cleaned = str_replace(['&', '.', '/', ','], '', $authorsInput);
-        $authorParts = preg_split('/S+/', $cleaned, -1, PREG_SPLIT_NO_EMPTY);
+        $authorParts = preg_split('/\s+/', trim($cleaned), -1, PREG_SPLIT_NO_EMPTY);
 
         // 2️⃣ Loop through and find/create authors
         $authorIds = [];

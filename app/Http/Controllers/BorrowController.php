@@ -26,14 +26,16 @@ class BorrowController extends Controller
                             ->orWhere('isbn', 'like', "%{$search}%");
                     })
                   ->orWhereHas('user', function($sub) use ($search) {
-                        $sub->where('name', 'like', "%{$search}%")
+                        $sub->where('full_name', 'like', "%{$search}%")
                             ->orWhere('email', 'like', "%{$search}%");
                     })
                   ->orWhere('borrow_status', 'like', "%{$search}%");
             });
         }
 
-        $records = BorrowRecord::with(['book.authors', 'user'])->get();
+        $records = $query->with(['book.authors', 'user'])
+            ->latest('br_id')
+            ->get();
 
         // SweetAlert delete confirmation
      
@@ -55,19 +57,21 @@ class BorrowController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id'        => 'required',
-            'book_id'        => 'required',
+            'user_id'        => 'required|exists:users,user_id',
+            'book_id'        => 'required|exists:books,book_id',
             'quantity'       => 'required|integer|min:1',
             'check_out_date' => 'required|date',
         ]);
 
-        DB::transaction(function () use ($request) {
-            $book = Book::findOrFail($request->book_id);
+        $book = Book::findOrFail($request->book_id);
 
-            if ($book->available_stock < $request->quantity) {
-                return redirect()->back()->with('error', 'Not enough books in stock.')->withInput();
-            }
+        if ($book->available_stock < $request->quantity) {
+            return redirect()->back()
+                ->with('error', 'Not enough books in stock.')
+                ->withInput();
+        }
 
+        DB::transaction(function () use ($request, $book) {
             $book->available_stock -= $request->quantity;
             $book->save();
 

@@ -10,7 +10,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BorrowController;
-use App\Http\Controllers\userBorrow;
 
 
 Route::get('/global-search', [GlobalSearchController::class, 'search'])->name('global.search');
@@ -57,8 +56,8 @@ Route::middleware([RoleMiddleware::class.':admin'])->group(function () {
         Route::get('/', [BorrowController::class, 'index'])->name('borrow-records.index');
         Route::get('/create', [BorrowController::class, 'create'])->name('borrow-records.create');
         Route::post('/', [BorrowController::class, 'store'])->name('borrow-records.store');
-        Route::put('/borrow-records/{id}/return', [BorrowController::class, 'returnBook'])->name('borrow-records.return');
-            Route::put('/borrow-records/{id}/extend', [BorrowController::class, 'extendBook'])->name('borrow-records.extend');
+        Route::put('/{id}/return', [BorrowController::class, 'returnBook'])->name('borrow-records.return');
+        Route::put('/{id}/extend', [BorrowController::class, 'extendBook'])->name('borrow-records.extend');
 
     });
 
@@ -68,10 +67,9 @@ Route::middleware([RoleMiddleware::class.':admin'])->group(function () {
 
 
 Route::middleware([RoleMiddleware::class . ':member'])->group(function () {
-    // Checkin routes
-    // Route::prefix('checkins')->name('checkins.')->group(function () {
-    //     Route::get('/', [CheckinController::class, 'index'])->name('index');       // GET checkins page
-    //     Route::post('/', [CheckinController::class, 'store'])->name('store');      // POST return book
-    //     Route::post('/status', [CheckinController::class, 'checkStatus'])->name('checkStatus'); // AJAX check status
-    // });
+    Route::prefix('checkins')->name('checkins.')->group(function () {
+        Route::get('/', [CheckinController::class, 'index'])->name('index');
+        Route::post('/', [CheckinController::class, 'store'])->name('store');
+        Route::post('/status', [CheckinController::class, 'checkStatus'])->name('checkStatus');
+    });
 });
